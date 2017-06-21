@@ -8,6 +8,7 @@
 
 import smtplib
 import getpass 
+import re
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
@@ -69,7 +70,7 @@ for contact in contactInfo:
 	companyStatus = contact[2].strip()
 
 	# skip if email address is not valid (doesn't contain '@' character)
-	if '@' not in companyEmail:
+	if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", companyEmail):
 		continue
 
 	# fill in correct template based on status of company
