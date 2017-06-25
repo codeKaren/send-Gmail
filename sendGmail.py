@@ -17,8 +17,6 @@ import numpy as np
 ### DEFINE PARAMETERS ###
 
 # TODO: modify these
-yourName = "Karen Li"
-yourMajor = "Computer Science"
 yourCCAddrs = []
 
 COMMASPACE = ', '
@@ -53,8 +51,8 @@ password = getpass.getpass("Please enter your password: ")
 csvFilePath = "tester.csv"
 # ignore the first 10 rows of spreadsheet since they aren't company email info; toggle this value if needed
 numRowsToSkip = 10
-# get indices for [Company Name, Contact Email, Status, Typeform Received] columns
-columnIndices = (0, 2, 7, 11)
+# get indices for [Company Name, Contact Email, Followup Email] columns
+columnIndices = (0, 2, 5)
 
 # get 2D array with a row for each company
 contactInfo = np.genfromtxt(csvFilePath, delimiter = ',', skip_header = numRowsToSkip, usecols = columnIndices, dtype='str')
@@ -68,14 +66,13 @@ for contact in contactInfo:
 	companyName = contact[0].strip()
 	companyEmail = contact[1].strip()
 	companyStatus = contact[2].strip()
-	companyTypeform = contact[3].strip()
 
 	# skip if email address is not valid (doesn't contain '@' character)
 	if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", companyEmail):
 		continue
 
 	# fill in correct template based on status of company
-	if companyStatus == "Committed" and companyTypeform == "Yes":
+	if companyStatus == "Yes":
 		body = returningTemplateString
 	else:
 		body = newTemplateString.format(companyName)
